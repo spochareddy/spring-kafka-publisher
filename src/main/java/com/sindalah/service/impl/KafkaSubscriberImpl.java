@@ -28,6 +28,9 @@ public class KafkaSubscriberImpl implements KafkaSubscriber {
         // while(true) {
         ConsumerRecords<String, String> consumerRecords = kafkaConsumer.poll(100);
         log.info("Polling messages count ::" + consumerRecords.count());
+        if(consumerRecords.isEmpty())
+            consumerRecords = kafkaConsumer.poll(100);
+        
         for (ConsumerRecord<String, String> r : consumerRecords) {
             log.info("key::" + r.key() + " ,value::" + r.value() + " ,PartitionId::" + r.partition() + " ,Offset::" + r.offset());
             msgList.add("offset::" + r.offset() + " ::value ::" + r.value());
